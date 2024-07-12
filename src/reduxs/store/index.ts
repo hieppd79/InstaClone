@@ -14,6 +14,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import {ThemeReducer} from '../reducers';
+import {PostApi} from '../../../sdk/apis';
 
 const persistConfig = {
   key: 'root',
@@ -35,6 +36,7 @@ const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 const store = configureStore({
   reducer: {
     root: persistedReducer,
+    [PostApi.reducerPath]: PostApi.reducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
