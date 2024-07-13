@@ -10,6 +10,7 @@ import {Post} from '../../../sdk/apis';
 import {FastImage} from '../FastImage';
 import {Avatar} from '../Avatar';
 import {Prototype} from '../../utils';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 interface CardProps extends Post {}
 
@@ -41,7 +42,21 @@ export const Card: FC<CardProps> = ({
           style={styles.cardImage}
         />
       </View>
-      <View></View>
+      <View style={styles.interactionIcon}>
+        <View style={styles.iconsLeft}>
+          <FeatherIcon name="heart" size={25} color="black" />
+          <FeatherIcon
+            name="message-circle"
+            size={25}
+            color="black"
+            style={styles.iconSpacing}
+          />
+          <FeatherIcon name="send" size={25} color="black" />
+        </View>
+        <View>
+          <FeatherIcon name="bookmark" size={25} color="black" />
+        </View>
+      </View>
       <View style={styles.cardCaption}>
         <Text style={styles.textBold}>
           Có {Prototype.number.formatNumber(like_count)} người thích
@@ -91,9 +106,20 @@ const styles = StyleSheet.create({
   },
   cardCaption: {
     paddingHorizontal: 15,
-    paddingTop: 15,
   },
   textBold: {
     fontWeight: '700',
+  },
+  interactionIcon: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+  },
+  iconsLeft: {
+    flexDirection: 'row',
+  },
+  iconSpacing: {
+    marginHorizontal: 5,
   },
 });
