@@ -13,6 +13,9 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/lib/integration/react';
 import {persistor, store} from './src/reduxs/store';
 import AppNavigation from './src/navigation/navigation';
+import {LogBox} from 'react-native';
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 
 function App(): React.JSX.Element {
   return (

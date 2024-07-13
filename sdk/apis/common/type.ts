@@ -209,4 +209,5 @@ export interface Post {
   timeline_pinned_user_ids: number[];
   top_likers: any[];
   user: User;
+  video_url: string;
 }

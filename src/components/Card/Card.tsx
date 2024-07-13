@@ -9,18 +9,15 @@ import {
 import {Post} from '../../../sdk/apis';
 import {FastImage} from '../FastImage';
 import {Avatar} from '../Avatar';
+import {CarouselMedia} from '../CarouselMedia';
 import {Prototype} from '../../utils';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
 interface CardProps extends Post {}
 
 const {height: MAX_HEIGHT} = Dimensions.get('screen');
-export const Card: FC<CardProps> = ({
-  caption,
-  image_versions,
-  user,
-  like_count,
-}) => {
+export const Card: FC<CardProps> = props => {
+  const {image_versions, user, like_count, caption} = props;
   const imageUri = useMemo(() => {
     return image_versions.items[0].url;
   }, [image_versions]);
@@ -36,11 +33,12 @@ export const Card: FC<CardProps> = ({
         <Text style={[styles.name, styles.textBold]}>{user.username}</Text>
       </View>
       <View>
-        <FastImage
+        {/* <FastImage
           resizeMode="cover"
           source={{uri: imageUri}}
           style={styles.cardImage}
-        />
+        /> */}
+        <CarouselMedia {...props} />
       </View>
       <View style={styles.interactionIcon}>
         <View style={styles.iconsLeft}>
