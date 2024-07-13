@@ -38,3 +38,5 @@ export const PostApi = createApi({
     }),
   }),
 });
+
+export const {useGetPostsQuery} = PostApi;
