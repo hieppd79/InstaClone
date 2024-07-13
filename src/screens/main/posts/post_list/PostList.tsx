@@ -10,7 +10,7 @@ export const PostList: FC = () => {
 
   const {data: getPostResult} = useGetPostsQuery();
 
-  const postsArray = useMemo(() => getPostResult?.data.items, []);
+  const postsArray = useMemo(() => getPostResult?.data.items, [getPostResult]);
 
   const handleGoToDetail = () => {
     nav.navigate(Routes.main.post_detail);
@@ -25,11 +25,6 @@ export const PostList: FC = () => {
 
   return (
     <View>
-      <Text>Post list</Text>
-      <TouchableOpacity onPress={handleGoToDetail}>
-        <Text>Go to detail</Text>
-      </TouchableOpacity>
-
       <FlatList data={postsArray} renderItem={renderItem} />
     </View>
   );
