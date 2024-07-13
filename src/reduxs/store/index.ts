@@ -43,11 +43,10 @@ const store = configureStore({
     getDefaultEnhancers().concat(__DEV__ ? [reactotron.createEnhancer!()] : []),
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
-      thunk: true,
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(PostApi.middleware) as any,
 });
 
 setupListeners(store.dispatch);

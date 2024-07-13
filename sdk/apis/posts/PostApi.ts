@@ -1,12 +1,11 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-
-export type Post = {
-  name: string;
-  image: string;
-};
+import {Post} from '../common';
 
 export type PostsFetchResult = {
-  posts: Post[];
+  data: {
+    items: Post[];
+  };
+  pagination_token: string;
 };
 
 export const PostApi = createApi({
@@ -18,10 +17,9 @@ export const PostApi = createApi({
     getPosts: builder.query<PostsFetchResult, void>({
       query: () => {
         return {
-          url: `/v1/post_info?code_or_id_or_url=CxYQJO8xuC6&include_insights=true`,
-          method: 'POST',
+          url: `/v1.2/posts?username_or_id_or_url=mrbeast`,
+          method: 'GET',
           headers: {
-            'Content-Type': 'application/json',
             'x-rapidapi-key':
               '5c40916bc2mshd57afac6970e9a3p15075djsn162f096c2375',
             'x-rapidapi-host': 'instagram-scraper-api2.p.rapidapi.com',
