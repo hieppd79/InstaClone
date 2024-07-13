@@ -15,6 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import {ThemeReducer} from '../reducers';
 import {PostApi} from '../../../sdk/apis';
+import reactotron from '../../../ReactotronConfig';
 
 const persistConfig = {
   key: 'root',
@@ -38,6 +39,8 @@ const store = configureStore({
     root: persistedReducer,
     [PostApi.reducerPath]: PostApi.reducer,
   },
+  enhancers: getDefaultEnhancers =>
+    getDefaultEnhancers().concat(__DEV__ ? [reactotron.createEnhancer!()] : []),
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       thunk: true,
