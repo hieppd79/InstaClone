@@ -1,16 +1,31 @@
-import React, {useEffect, FC, ComponentType, useCallback, useMemo} from 'react';
-import {View, Text, TouchableOpacity, FlatList} from 'react-native';
+import React, {
+  useEffect,
+  FC,
+  ComponentType,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 // import {useNavigation} from '@react-navigation/native';
 import {Routes, useNavigator} from '../../../../navigation';
 import {Post, useGetPostsQuery} from '../../../../../sdk/apis';
 import {PostItem} from './components/PostItem';
+import {FlashList} from '@shopify/flash-list';
+import {useInfinityPost} from '../../../../hooks';
 
 export const PostList: FC = () => {
   const nav = useNavigator();
 
-  const {data: getPostResult} = useGetPostsQuery();
-
-  const postsArray = useMemo(() => getPostResult?.data.items, [getPostResult]);
+  const {data, isLoading, isFetching, loadMore, refetch} = useInfinityPost({
+    userName: 'mrbeast',
+  });
 
   const handleGoToDetail = () => {
     nav.navigate(Routes.main.post_detail);
@@ -23,10 +38,29 @@ export const PostList: FC = () => {
     [],
   );
 
+  const keyExtractor = useCallback(
+    (item: Post, index: number) => `post_item_${item.id}`,
+    [],
+  );
+
+  const onEndReached = useCallback(() => {
+    loadMore();
+  }, [loadMore]);
+
   return (
-    <View>
-      <FlatList data={postsArray} renderItem={renderItem} />
-    </View>
+    <FlashList
+      data={data}
+      renderItem={renderItem}
+      keyExtractor={keyExtractor}
+      estimatedItemSize={600}
+      refreshing={isLoading}
+      onRefresh={refetch}
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.3}
+      ListFooterComponent={
+        isFetching ? <ActivityIndicator size="small" color="gray" /> : null
+      }
+    />
   );
 };
 

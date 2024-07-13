@@ -8,16 +8,26 @@ export type PostsFetchResult = {
   pagination_token: string;
 };
 
+export type PostFetchParams = {
+  userName: string;
+  paginationToken?: string;
+};
+
 export const PostApi = createApi({
   reducerPath: 'post/getPost',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://instagram-scraper-api2.p.rapidapi.com',
   }),
   endpoints: builder => ({
-    getPosts: builder.query<PostsFetchResult, void>({
-      query: () => {
+    getPosts: builder.query<PostsFetchResult, PostFetchParams>({
+      query: ({userName, paginationToken}) => {
+        let queryString = `/v1.2/posts?username_or_id_or_url=${userName}`;
+        if (paginationToken) {
+          queryString = `/v1.2/posts?username_or_id_or_url=${userName}&pagination_token=${paginationToken}`;
+        }
+
         return {
-          url: `/v1.2/posts?username_or_id_or_url=mrbeast`,
+          url: queryString,
           method: 'GET',
           headers: {
             'x-rapidapi-key':
