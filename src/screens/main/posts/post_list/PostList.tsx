@@ -22,6 +22,7 @@ import {PostItem} from './components/PostItem';
 import {FlashList} from '@shopify/flash-list';
 import {useInfinityPost, useAppDispatch} from '../../../../hooks';
 import {handleScroll} from '../../../../reduxs/reducers';
+import {Container} from '../../../../components';
 
 export const PostList: FC = () => {
   const nav = useNavigator();
@@ -59,21 +60,23 @@ export const PostList: FC = () => {
   );
 
   return (
-    <FlashList
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={keyExtractor}
-      estimatedItemSize={600}
-      refreshing={isLoading}
-      onRefresh={refetch}
-      onEndReached={onEndReached}
-      onEndReachedThreshold={0.3}
-      ListFooterComponent={
-        isFetching ? <ActivityIndicator size="small" color="gray" /> : null
-      }
-      onScroll={onScroll}
-      scrollEventThrottle={500}
-    />
+    <Container>
+      <FlashList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        estimatedItemSize={600}
+        refreshing={isLoading}
+        onRefresh={refetch}
+        onEndReached={onEndReached}
+        onEndReachedThreshold={0.3}
+        ListFooterComponent={
+          isFetching ? <ActivityIndicator size="small" color="gray" /> : null
+        }
+        onScroll={onScroll}
+        scrollEventThrottle={500}
+      />
+    </Container>
   );
 };
 

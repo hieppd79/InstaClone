@@ -11,7 +11,13 @@ const AppNavigation: FC<AppNavigationProps> = () => {
   return (
     <NavigationContainer>
       <AppStack.Navigator initialRouteName={Routes.main.post_list}>
-        <AppStack.Screen name={Routes.main.post_list} component={PostList} />
+        <AppStack.Screen
+          name={Routes.main.post_list}
+          component={PostList}
+          options={{
+            headerShown: false,
+          }}
+        />
         <AppStack.Screen
           name={Routes.main.post_detail}
           component={PostDetail}
