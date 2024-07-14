@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
 import {
   View,
   Dimensions,
@@ -6,13 +6,20 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+import {Routes, useNavigator} from '../../../../../navigation';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
 export const PostListHeader: FC = () => {
+  const nav = useNavigator();
+
+  const handleGoToSearch = useCallback(() => {
+    nav.navigate(Routes.main.search_user);
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>INSTAGRAM</Text>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleGoToSearch}>
         <FeatherIcon name="search" size={25} color="black" />
       </TouchableOpacity>
     </View>

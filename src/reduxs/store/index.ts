@@ -14,7 +14,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import {ThemeReducer, PostReducer} from '../reducers';
-import {PostApi} from '../../../sdk/apis';
+import {PostApi, SearchApi} from '../../../sdk/apis';
 import reactotron from '../../../ReactotronConfig';
 
 const persistConfig = {
@@ -39,6 +39,7 @@ const store = configureStore({
   reducer: {
     root: persistedReducer,
     [PostApi.reducerPath]: PostApi.reducer,
+    [SearchApi.reducerPath]: SearchApi.reducer,
   },
   enhancers: getDefaultEnhancers =>
     getDefaultEnhancers().concat(__DEV__ ? [reactotron.createEnhancer!()] : []),
@@ -47,7 +48,9 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(PostApi.middleware) as any,
+    })
+      .concat(PostApi.middleware)
+      .concat(SearchApi.middleware) as any,
 });
 
 setupListeners(store.dispatch);

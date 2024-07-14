@@ -22,16 +22,23 @@ import {PostItem} from './components/PostItem';
 import {PostListHeader} from './components/PostListHeader';
 import {PostListHeaderAnimated} from './components/PostListHeader.Animated';
 import {FlashList} from '@shopify/flash-list';
-import {useInfinityPost, useAppDispatch} from '../../../../hooks';
+import {
+  useInfinityPost,
+  useAppDispatch,
+  useAppSelector,
+} from '../../../../hooks';
 import {handleScroll} from '../../../../reduxs/reducers';
 import {Container} from '../../../../components';
 
 export const PostList: FC = () => {
   const nav = useNavigator();
   const dispatch = useAppDispatch();
+  const currentUserName = useAppSelector(
+    state => state.root.posts.currentUserName,
+  );
 
   const {data, isLoading, isFetching, loadMore, refetch} = useInfinityPost({
-    userName: 'mrbeast',
+    userName: currentUserName,
   });
 
   const handleGoToDetail = () => {
@@ -64,12 +71,11 @@ export const PostList: FC = () => {
   return (
     <Container>
       <PostListHeaderAnimated />
-      <FlashList
+      <FlatList
         bounces={false}
         data={data}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
-        estimatedItemSize={600}
         refreshing={isLoading}
         onRefresh={refetch}
         onEndReached={onEndReached}

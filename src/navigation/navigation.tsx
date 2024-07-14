@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {PostDetail, PostList} from '../screens/main';
+import {PostDetail, PostList, SearchUser} from '../screens/main';
 import {Routes} from './routes';
 
 type AppNavigationProps = {};
@@ -21,6 +21,14 @@ const AppNavigation: FC<AppNavigationProps> = () => {
         <AppStack.Screen
           name={Routes.main.post_detail}
           component={PostDetail}
+        />
+        <AppStack.Screen
+          name={Routes.main.search_user}
+          component={SearchUser}
+          options={{
+            title: 'Search user',
+            headerLeftLabelVisible: false,
+          }}
         />
       </AppStack.Navigator>
     </NavigationContainer>

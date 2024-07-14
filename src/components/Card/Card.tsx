@@ -60,8 +60,8 @@ export const Card: FC<CardProps> = props => {
           Có {Prototype.number.formatNumber(like_count)} người thích
         </Text>
         <Text>
-          <Text style={[styles.name, styles.textBold]}>{user.username}</Text>{' '}
-          {caption.text}
+          <Text style={[styles.name, styles.textBold]}>{user?.username}</Text>{' '}
+          {caption?.text ?? ''}
         </Text>
       </View>
     </View>

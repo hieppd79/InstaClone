@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import {Post, useGetPostsQuery, PostFetchParams} from '../../../sdk/apis';
 
 export const useInfinityPost = ({userName}: PostFetchParams) => {
@@ -6,6 +6,8 @@ export const useInfinityPost = ({userName}: PostFetchParams) => {
   const [paginationToken, setPaginationToken] = useState<string | undefined>(
     '',
   );
+
+  const userNameRef = useRef();
 
   const {
     data: response,
@@ -20,6 +22,13 @@ export const useInfinityPost = ({userName}: PostFetchParams) => {
       setData(prevData => [...prevData, ...response.data.items]);
     }
   }, [response]);
+
+  useEffect(() => {
+    if (userName !== userNameRef.current) {
+      setData([]);
+      userNameRef.current === userName;
+    }
+  }, [userName]);
 
   const loadMore = () => {
     if (!isFetching && response && response.data.items.length > 0) {
