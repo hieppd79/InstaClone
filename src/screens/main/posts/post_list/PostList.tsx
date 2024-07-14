@@ -19,6 +19,8 @@ import {
 import {Routes, useNavigator} from '../../../../navigation';
 import {Post, useGetPostsQuery} from '../../../../../sdk/apis';
 import {PostItem} from './components/PostItem';
+import {PostListHeader} from './components/PostListHeader';
+import {PostListHeaderAnimated} from './components/PostListHeader.Animated';
 import {FlashList} from '@shopify/flash-list';
 import {useInfinityPost, useAppDispatch} from '../../../../hooks';
 import {handleScroll} from '../../../../reduxs/reducers';
@@ -61,7 +63,9 @@ export const PostList: FC = () => {
 
   return (
     <Container>
+      <PostListHeaderAnimated />
       <FlashList
+        bounces={false}
         data={data}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
@@ -75,6 +79,7 @@ export const PostList: FC = () => {
         }
         onScroll={onScroll}
         scrollEventThrottle={500}
+        ListHeaderComponent={PostListHeader}
       />
     </Container>
   );
