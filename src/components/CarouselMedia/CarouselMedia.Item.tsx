@@ -8,11 +8,14 @@ import {
   Dimensions,
 } from 'react-native';
 import {Media} from '../../../sdk/apis';
+import {VideoPlayer} from './VideoPlayer';
 
 interface BaseProps {
   isVideo: boolean;
   videoUrl: string;
   imageUrl: string;
+  carouselCurrentIndex?: number;
+  index?: number;
 }
 
 interface CarouselMediaProps {
@@ -20,6 +23,8 @@ interface CarouselMediaProps {
   isVideo?: undefined;
   videoUrl?: undefined;
   imageUrl?: undefined;
+  carouselCurrentIndex?: number;
+  index?: number;
 }
 
 interface NonCarouselMediaProps extends BaseProps {
@@ -30,7 +35,20 @@ type CarouselMediaItemProps = CarouselMediaProps | NonCarouselMediaProps;
 
 const {height: MAX_HEIGHT} = Dimensions.get('screen');
 export const CarouselMediaItem: FC<CarouselMediaItemProps> = props => {
-  const {carouselMedia, isVideo, videoUrl, imageUrl} = props;
+  const {
+    carouselMedia,
+    isVideo,
+    videoUrl,
+    imageUrl,
+    carouselCurrentIndex,
+    index,
+  } = props;
+
+  const isVideoInCarouselFocus = useMemo(
+    () => carouselCurrentIndex === index,
+    [carouselCurrentIndex, index],
+  );
+
   if (carouselMedia) {
     if (!carouselMedia.is_video) {
       return (
@@ -42,17 +60,19 @@ export const CarouselMediaItem: FC<CarouselMediaItemProps> = props => {
       );
     } else {
       return (
-        <View>
-          <Text>video</Text>
-        </View>
+        <VideoPlayer
+          videoUrl={String(carouselMedia?.video_url)}
+          isVideoInCarouselFocus={isVideoInCarouselFocus}
+        />
       );
     }
   } else {
     if (isVideo) {
       return (
-        <View>
-          <Text>video</Text>
-        </View>
+        <VideoPlayer
+          videoUrl={String(videoUrl)}
+          isVideoInCarouselFocus={isVideoInCarouselFocus}
+        />
       );
     } else {
       return (
@@ -69,6 +89,6 @@ export const CarouselMediaItem: FC<CarouselMediaItemProps> = props => {
 const styles = StyleSheet.create({
   cardImage: {
     width: '100%',
-    height: MAX_HEIGHT * 0.55,
+    height: MAX_HEIGHT * 0.65,
   },
 });

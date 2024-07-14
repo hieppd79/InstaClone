@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     width: '100%',
-    height: MAX_HEIGHT * 0.55,
+    height: MAX_HEIGHT * 0.65,
   },
   cardCaption: {
     paddingHorizontal: 15,

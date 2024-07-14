@@ -16,6 +16,7 @@ import AppNavigation from './src/navigation/navigation';
 import {LogBox} from 'react-native';
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 function App(): React.JSX.Element {
   return (

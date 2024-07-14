@@ -12,16 +12,20 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
 } from 'react-native';
 // import {useNavigation} from '@react-navigation/native';
 import {Routes, useNavigator} from '../../../../navigation';
 import {Post, useGetPostsQuery} from '../../../../../sdk/apis';
 import {PostItem} from './components/PostItem';
 import {FlashList} from '@shopify/flash-list';
-import {useInfinityPost} from '../../../../hooks';
+import {useInfinityPost, useAppDispatch} from '../../../../hooks';
+import {handleScroll} from '../../../../reduxs/reducers';
 
 export const PostList: FC = () => {
   const nav = useNavigator();
+  const dispatch = useAppDispatch();
 
   const {data, isLoading, isFetching, loadMore, refetch} = useInfinityPost({
     userName: 'mrbeast',
@@ -47,6 +51,13 @@ export const PostList: FC = () => {
     loadMore();
   }, [loadMore]);
 
+  const onScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      dispatch(handleScroll(event.nativeEvent.contentOffset.y));
+    },
+    [dispatch, handleScroll],
+  );
+
   return (
     <FlashList
       data={data}
@@ -60,6 +71,8 @@ export const PostList: FC = () => {
       ListFooterComponent={
         isFetching ? <ActivityIndicator size="small" color="gray" /> : null
       }
+      onScroll={onScroll}
+      scrollEventThrottle={500}
     />
   );
 };

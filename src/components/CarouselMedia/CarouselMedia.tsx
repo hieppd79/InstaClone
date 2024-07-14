@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {View, Dimensions, StyleSheet} from 'react-native';
 import {Post} from '../../../sdk/apis';
 import Carousel, {Pagination} from 'react-native-reanimated-carousel';
@@ -11,18 +11,24 @@ const {width: MAX_WIDTH, height: MAX_HEIGHT} = Dimensions.get('screen');
 export const CarouselMedia: FC<CarouselMediaProps> = props => {
   const {carousel_media, is_video, video_url, thumbnail_url} = props;
   const progress = useSharedValue<number>(0);
+  const [carouselCurrentIndex, setIndex] = useState<number>(0);
 
   if (carousel_media) {
     return (
       <>
         <Carousel
           width={MAX_WIDTH}
-          height={MAX_HEIGHT * 0.55}
+          height={MAX_HEIGHT * 0.65}
           data={carousel_media}
           onProgressChange={progress}
           renderItem={({item, index}) => (
-            <CarouselMediaItem carouselMedia={item} />
+            <CarouselMediaItem
+              index={index}
+              carouselCurrentIndex={carouselCurrentIndex}
+              carouselMedia={item}
+            />
           )}
+          onSnapToItem={index => setIndex(index)}
         />
         <Pagination.Basic
           progress={progress}
